@@ -16,7 +16,8 @@ Status codes used: `200` OK, `201` Created, `202` Accepted (background job enque
 ## Dashboard
 
 ### GET /api/dashboard
-Returns summary counts used by the dashboard page.
+Returns summary data for the dashboard page: headline counts, status breakdowns, a short overdue
+task list, and recently updated projects.
 
 **Response 200**
 ```json
@@ -24,9 +25,33 @@ Returns summary counts used by the dashboard page.
   "totalProjects": 3,
   "totalUserStories": 4,
   "openTasks": 6,
-  "overdueTasks": 2
+  "overdueTasks": 2,
+  "taskStatusCounts": { "TODO": 4, "IN_PROGRESS": 1, "BLOCKED": 1, "DONE": 3 },
+  "projectStatusCounts": { "PLANNING": 1, "ACTIVE": 1, "COMPLETED": 1, "ARCHIVED": 0 },
+  "overdueTaskList": [
+    {
+      "id": 3,
+      "title": "Write homepage copy",
+      "dueDate": "2026-09-02T08:15:05.446Z",
+      "priority": "LOW",
+      "storyId": 1,
+      "storyTitle": "As a visitor, I can view a redesigned homepage",
+      "projectId": 1,
+      "projectName": "Company Website Redesign"
+    }
+  ],
+  "recentProjects": [
+    {
+      "id": 1,
+      "name": "Company Website Redesign",
+      "status": "ACTIVE",
+      "userStoryCount": 2,
+      "updatedAt": "2026-09-03 08:15:05"
+    }
+  ]
 }
 ```
+`overdueTaskList` and `recentProjects` are each capped at 5 items, most-urgent/most-recent first.
 
 ---
 
