@@ -11,6 +11,7 @@ function ProjectsList({ onOpenProject }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   function loadProjects() {
     setLoading(true);
@@ -22,6 +23,15 @@ function ProjectsList({ onOpenProject }) {
   }
 
   useEffect(loadProjects, []);
+
+  const filteredProjects = projects.filter((project) => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) return true;
+    return (
+      project.name.toLowerCase().includes(term) ||
+      (project.description || "").toLowerCase().includes(term)
+    );
+  });
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -63,6 +73,15 @@ function ProjectsList({ onOpenProject }) {
 
       {error && <p className="error-text">Error: {error}</p>}
 
+      <input
+        className="search-input"
+        type="text"
+        placeholder="Search projects by name or description..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        aria-label="Search projects"
+      />
+
       {showForm && (
         <form className="card form" onSubmit={handleCreate}>
           <label>
@@ -83,9 +102,11 @@ function ProjectsList({ onOpenProject }) {
         <p>Loading projects...</p>
       ) : projects.length === 0 ? (
         <p>No projects yet. Create one to get started.</p>
+      ) : filteredProjects.length === 0 ? (
+        <p>No projects match "{searchTerm}".</p>
       ) : (
         <div className="card-list">
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <div className="card project-card" key={project.id}>
               <div className="project-card-main" onClick={() => onOpenProject(project.id)}>
                 <div className="project-card-title-row">
