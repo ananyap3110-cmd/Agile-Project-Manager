@@ -27,12 +27,19 @@ Small teams don't need Jira. This app lets a team:
   and failure handling.
 - Simple, consistent REST API with documented endpoints.
 - Seed data so the app is useful immediately.
+- **Dark mode** with a true-black theme, toggled from the header and remembered across visits.
+- **Search** on the Projects page to filter by name or description.
+- **Profile page** for the local user (name, role, email, bio).
+- **Built-in assistant widget** (bottom-right corner) that answers common questions about how the
+  app works — a simple keyword-matched FAQ bot, not a paid AI API, so it works with zero setup
+  and no API key (see `docs/DESIGN_DECISIONS.md` for why).
 
 ## Technologies
 
 - **Frontend**: React (JavaScript), Vite, plain CSS, native `fetch()`.
 - **Backend**: Node.js, Express.
-- **Database**: SQLite via `better-sqlite3` (no separate ORM — see `docs/DESIGN_DECISIONS.md`).
+- **Database**: SQLite via Node's built-in `node:sqlite` module (no extra npm package, no
+  native compilation, no ORM — see `docs/DESIGN_DECISIONS.md`).
 - **Background jobs**: a plain polling worker process, no external queue/broker.
 
 ## Project Structure
@@ -48,7 +55,8 @@ See `docs/ARCHITECTURE.md` for a diagram and a walkthrough of how the pieces fit
 
 ## Installation
 
-Requires Node.js 18+ (for native `fetch` support and modern JS syntax).
+Requires **Node.js 22.13+** (for the built-in `node:sqlite` module — see "Database Setup" below).
+Node 24 LTS is a good choice. Check your version with `node -v`.
 
 ```bash
 # 1. Clone the repository, then from the project root:
@@ -61,9 +69,14 @@ npm install
 
 ## Database Setup
 
-The database is plain SQLite, created automatically — there's no separate "create database" step
-or migration tool. The first time the server (or worker, or seed script) runs, it creates
-`server/data.db` and all required tables if they don't already exist.
+The database is plain SQLite, accessed through Node's built-in `node:sqlite` module — there's no
+separate database driver to install, no native compiler required, and no migration tool. The
+first time the server (or worker, or seed script) runs, it creates `server/data.db` and all
+required tables if they don't already exist.
+
+You'll see a one-line `ExperimentalWarning: SQLite is an experimental feature` printed on
+startup — that's expected and harmless; `node:sqlite` is a Release Candidate feature as of
+Node 24/25, not yet marked fully stable, but it's safe to use here.
 
 Load the seed data (2-3 projects, several user stories, several tasks, mixed statuses/priorities,
 including at least one overdue task):
