@@ -9,6 +9,7 @@ const projectRoutes = require("./routes/projects");
 const storyRoutes = require("./routes/stories");
 const taskRoutes = require("./routes/tasks");
 const jobRoutes = require("./routes/jobs");
+const profileRoutes = require("./routes/profile");
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api", storyRoutes);
 app.use("/api", taskRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use("/api/profile", profileRoutes);
 
 // 404 handler for unknown routes
 app.use((req, res) => {
