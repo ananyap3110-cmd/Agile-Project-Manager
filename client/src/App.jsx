@@ -2,11 +2,14 @@ import { useState } from "react";
 import Dashboard from "./components/Dashboard.jsx";
 import ProjectsList from "./components/ProjectsList.jsx";
 import ProjectDetail from "./components/ProjectDetail.jsx";
+import Profile from "./components/Profile.jsx";
+import ThemeToggle from "./components/ThemeToggle.jsx";
+import AssistantWidget from "./components/AssistantWidget.jsx";
 
-// The whole app is three "pages" swapped by simple state - no router library
+// The whole app is four "pages" swapped by simple state - no router library
 // needed for an app this size (see README "Design Decisions").
 function App() {
-  const [page, setPage] = useState("dashboard"); // "dashboard" | "projects" | "project"
+  const [page, setPage] = useState("dashboard"); // "dashboard" | "projects" | "project" | "profile"
   const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   function openProject(id) {
@@ -31,6 +34,13 @@ function App() {
           >
             Projects
           </button>
+          <button
+            className={page === "profile" ? "nav-link active" : "nav-link"}
+            onClick={() => setPage("profile")}
+          >
+            Profile
+          </button>
+          <ThemeToggle />
         </nav>
       </header>
 
@@ -40,7 +50,11 @@ function App() {
         {page === "project" && selectedProjectId && (
           <ProjectDetail projectId={selectedProjectId} onBack={() => setPage("projects")} />
         )}
+        {page === "profile" && <Profile />}
       </main>
+
+      {/* Floating assistant available on every page. */}
+      <AssistantWidget />
     </div>
   );
 }

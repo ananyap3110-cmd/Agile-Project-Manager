@@ -14,6 +14,22 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+/* Dark theme - true/"perfect" black background, toggled via a data-theme
+   attribute on <html> (see ThemeToggle.jsx). Only the color variables
+   change; every layout rule below reads these variables, so nothing else
+   needs to know which theme is active. */
+[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-border: #262626;
+  --color-text: #f2f2f2;
+  --color-muted: #9a9a9a;
+  --color-primary: #5b8fd6;
+  --color-primary-dark: #7ba6e0;
+  --color-danger: #e0685a;
+  --color-danger-bg: #2a1614;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -370,6 +386,48 @@ body {
   background: #fdf6f5;
 }
 
+/* Dark-theme overrides for the fixed hex colors above - badges and the
+   overdue row use flat colors (not variables) in light mode for contrast,
+   so they need their own dark-mode versions here. */
+[data-theme="dark"] .badge-active {
+  background: #123a20;
+  color: #6fcf8f;
+}
+
+[data-theme="dark"] .badge-planning {
+  background: #24262b;
+  color: #b5bac2;
+}
+
+[data-theme="dark"] .badge-completed {
+  background: #1c2b45;
+  color: #7ba6e0;
+}
+
+[data-theme="dark"] .badge-archived {
+  background: #2c2416;
+  color: #c9ab73;
+}
+
+[data-theme="dark"] .badge-priority-low {
+  background: #24262b;
+  color: #b5bac2;
+}
+
+[data-theme="dark"] .badge-priority-medium {
+  background: #3a2d10;
+  color: #e0b559;
+}
+
+[data-theme="dark"] .badge-priority-high {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+[data-theme="dark"] .overdue-row {
+  background: #1f1210;
+}
+
 .overdue-tag {
   color: var(--color-danger);
   font-size: 12px;
@@ -398,4 +456,179 @@ body {
   border-radius: var(--radius);
   border: 1px solid var(--color-border);
   font-size: 13px;
+}
+
+/* Theme toggle */
+
+.theme-toggle {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.theme-toggle:hover {
+  background: var(--color-bg);
+}
+
+/* Search */
+
+.search-input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+/* Profile page */
+
+.profile-card {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  max-width: 480px;
+}
+
+.profile-avatar {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.profile-form {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.profile-form-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Assistant widget */
+
+.assistant-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.assistant-toggle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primary);
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.assistant-toggle:hover {
+  background: var(--color-primary-dark);
+}
+
+.assistant-panel {
+  width: 300px;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.assistant-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--color-primary);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.assistant-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.assistant-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 160px;
+  max-height: 260px;
+}
+
+.assistant-message {
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  max-width: 85%;
+  line-height: 1.4;
+}
+
+.assistant-message-bot {
+  background: var(--color-bg);
+  color: var(--color-text);
+  align-self: flex-start;
+}
+
+.assistant-message-user {
+  background: var(--color-primary);
+  color: white;
+  align-self: flex-end;
+}
+
+.assistant-input-row {
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid var(--color-border);
+}
+
+.assistant-input-row input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 13px;
+  font-family: inherit;
 }

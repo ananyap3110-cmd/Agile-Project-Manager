@@ -47,4 +47,8 @@ export const api = {
 
   // Background jobs
   getJob: (id) => request(`/jobs/${id}`),
+
+  // Profile (single local profile, no auth - see docs/DESIGN_DECISIONS.md)
+  getProfile: () => request("/profile"),
+  updateProfile: (data) => request("/profile", { method: "PATCH", body: JSON.stringify(data) }),
 };
