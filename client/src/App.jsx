@@ -45,7 +45,7 @@ function App() {
       </header>
 
       <main className="app-main">
-        {page === "dashboard" && <Dashboard onViewProjects={() => setPage("projects")} />}
+        {page === "dashboard" && <Dashboard onViewProjects={() => setPage("projects")} onOpenProject={openProject} />}
         {page === "projects" && <ProjectsList onOpenProject={openProject} />}
         {page === "project" && selectedProjectId && (
           <ProjectDetail projectId={selectedProjectId} onBack={() => setPage("projects")} />
