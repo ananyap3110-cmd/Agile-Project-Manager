@@ -191,3 +191,30 @@ calling `POST /api/projects/:id/reports`.
 ```
 
 `status` is one of `PENDING | PROCESSING | COMPLETED | FAILED`.
+
+---
+
+## Profile
+
+There's no authentication in this app (see `docs/DESIGN_DECISIONS.md`), so there is exactly one
+local profile rather than per-user accounts.
+
+### GET /api/profile
+Returns the single profile row.
+
+**Response 200**
+```json
+{
+  "id": 1,
+  "name": "Ananya",
+  "role": "Team Lead",
+  "email": "ananya@example.com",
+  "bio": "Building things",
+  "updatedAt": "2026-09-01 22:12:41"
+}
+```
+
+### PATCH /api/profile
+Update any of `name`, `role`, `email`, `bio`. Only send the fields you want to change.
+
+**Response 200**: the updated profile.
