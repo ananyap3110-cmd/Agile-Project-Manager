@@ -21,8 +21,8 @@ Small teams don't need Jira. This app lets a team:
   (`BACKLOG/IN_PROGRESS/DONE`), Tasks (`TODO/IN_PROGRESS/BLOCKED/DONE`).
 - Priority levels (`LOW/MEDIUM/HIGH`) on Stories and Tasks.
 - Due dates on Tasks, with overdue tasks visibly flagged.
-- Dashboard with aggregate counts.
-- Expandable Project → Story → Task view in the UI.
+- Dashboard with headline counts, task/project status breakdowns, an overdue-tasks list, and
+  recently updated projects — each item links straight into its project.- Expandable Project → Story → Task view in the UI.
 - Background "Generate Project Report" workflow with a separate polling worker process, retries,
   and failure handling.
 - Simple, consistent REST API with documented endpoints.
